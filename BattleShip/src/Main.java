@@ -69,8 +69,7 @@ public class Main {
                     int player2 = 2;
                     agregarbarcos(btotales, player2, F, C, tablero2, nfilas, ncolumnas);
 
-                }
-                else if (btotales == 2) {
+                } else if (btotales == 2) {
                     System.out.println("===========\uD83E\uDEE1 Jugador 1 \uD83E\uDEE1===========");
                     int player1 = 1;
                     agregarbarcos(btotales, player1, F, C, tablero1, nfilas, ncolumnas);
@@ -79,8 +78,7 @@ public class Main {
                     int player2 = 1;
                     agregarbarcos(btotales, player2, F, C, tablero2, nfilas, ncolumnas);
 
-                }
-                else if (btotales == 3) {
+                } else if (btotales == 3) {
                     System.out.println("===========\uD83E\uDEE1 Jugador 1 \uD83E\uDEE1===========");
                     int player1 = 1;
                     agregarbarcos(btotales, player1, F, C, tablero1, nfilas, ncolumnas);
@@ -89,8 +87,7 @@ public class Main {
                     int player2 = 1;
                     agregarbarcos(btotales, player2, F, C, tablero2, nfilas, ncolumnas);
 
-                }
-                else if (btotales == 4) {
+                } else if (btotales == 4) {
                     System.out.println("===========\uD83E\uDEE1 Jugador 1 \uD83E\uDEE1===========");
                     int player1 = 1;
                     agregarbarcos(btotales, player1, F, C, tablero1, nfilas, ncolumnas);
@@ -103,42 +100,68 @@ public class Main {
                 //Aqui comienzan las tiradas
                 int misiFila = 0;
                 int misiColumna = 0;
+                int ptosPlayer1 = 0;
+                int ptosPlayer2 = 0;
 
+                boolean shoots = false;
+                while (!shoots) {
 
-                System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-                System.out.println("//////// Turno del jugador 1 ////////");
-                System.out.println("Este es el territorio enemigo: \uD83D\uDDFA");
-                for (int i = 0; i < nfilas; i++) {
-                    for (int j = 0; j < ncolumnas; j++) {
-                        System.out.print(tablero[i][j] + " ");
+                    System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+                    System.out.println("//////// Turno del jugador 1 ////////");
+                    int jugador = 1;
+                    System.out.println("Este es el territorio enemigo: \uD83D\uDDFA");
+                    for (int i = 0; i < nfilas; i++) {
+                        for (int j = 0; j < ncolumnas; j++) {
+                            System.out.print(tablero[i][j] + " ");
+                        }
+                        System.out.println("");
                     }
-                    System.out.println("");
-                }
+
+                    disparos(jugador, tablero2, tablero1, misiFila, misiColumna, nfilas, ncolumnas, ptosPlayer1, ptosPlayer2);
+
+                    System.out.println("//////// Turno del jugador 2 ////////");
+                    System.out.println("Este es el territorio enemigo: \uD83D\uDDFA");
+
+                    for (int i = 0; i < nfilas; i++) {
+                        for (int j = 0; j < ncolumnas; j++) {
+                            System.out.print(tablero[i][j] + " ");
+                        }
+                        System.out.println("");
+                    }
+
+                    disparos(jugador, tablero2, tablero1, misiFila, misiColumna, nfilas, ncolumnas, ptosPlayer1, ptosPlayer2);
+                /*
                 System.out.println("¿En donde desea lanzar un misil?\uD83D\uDE80");
                 System.out.println("Posicion en filas: ");
                 misiFila = leer.nextInt();
-                misiFila = vf(misiFila, nfilas+1, -1);
+                misiFila = vf(misiFila-1, nfilas+1, -1);
                 System.out.println("Posicion en columnas: ");
                 misiColumna = leer.nextInt();
                 misiColumna = vf(misiColumna, ncolumnas+1, -1);
                 System.out.println("⚠⚠ Fijando coordenadas ⚠⚠");
                 System.out.println("‼Coordenadas fijadas‼");
                 System.out.println("Disparando...\uD83D\uDE80");
-
-            }
-            else if (accion == 2) {
+                if(tablero1[misiFila][misiColumna] == 0){
+                    System.out.println("❌ Impacto fallido ❌");
+                }
+                else{
+                    System.out.println("✔Impacto directo✔");
+                }
+                */
+                }
+            } else if (accion == 2) {
                 game = true;
             }
         }
-        
+
 
     }
-    public static int veri(boolean verificacion, int accion, int p1, int p2){
-        while(!verificacion){
-            if (accion < p1 && accion > p2){
+
+    public static int veri(boolean verificacion, int accion, int p1, int p2) {
+        while (!verificacion) {
+            if (accion < p1 && accion > p2) {
                 verificacion = true;
-            }
-            else {
+            } else {
                 System.out.println("Los valores introducidos no son validos, intentelo de nuevo.");
                 accion = lector.nextInt();
             }
@@ -147,13 +170,12 @@ public class Main {
     }
 
     //Funcion de verificacion sin booleano
-    public static int vf(int acc, int p1, int p2){
+    public static int vf(int acc, int p1, int p2) {
         boolean verifi = false;
-        while(!verifi){
-            if (acc < p1 && acc > p2){
+        while (!verifi) {
+            if (acc < p1 && acc > p2) {
                 verifi = true;
-            }
-            else {
+            } else {
                 System.out.println("Los valores introducidos no son validos, intentelo de nuevo.");
                 acc = lector.nextInt();
             }
@@ -170,11 +192,11 @@ public class Main {
                 System.out.println("Ingrese la posicion en fila del barco " + (i + 1));
                 F = lector.nextInt();
                 F -= 1;
-                F = vf(F, nfilas+1, -1);
+                F = vf(F, nfilas + 1, -1);
                 System.out.println("Ingrese la posicion en columna del barco " + (i + 1));
                 C = lector.nextInt();
                 C -= 1;
-                C = vf(C, ncolumnas+1, -1);
+                C = vf(C, ncolumnas + 1, -1);
                 System.out.println("Ingrese un numero identificador para su barco");
                 tablero[F][C] = lector.nextInt();
             }
@@ -194,11 +216,11 @@ public class Main {
                 System.out.println("Ingrese la posicion en fila del barco " + (i + 1));
                 F = lector.nextInt();
                 F -= 1;
-                F = vf(F, nfilas+1, -1);
+                F = vf(F, nfilas + 1, -1);
                 System.out.println("Ingrese la posicion en columna del barco " + (i + 1));
                 C = lector.nextInt();
                 C -= 1;
-                C = vf(C, ncolumnas+1, -1);
+                C = vf(C, ncolumnas + 1, -1);
                 System.out.println("Ingrese un numero identificador para su barco");
                 tablero[F][C] = lector.nextInt();
             }
@@ -214,4 +236,61 @@ public class Main {
         }
 
     }
+
+    public static int disparos(int jugador, int[][] tablero2, int[][] tablero1, int misiFila, int misiColumna, int nfilas, int ncolumnas, int ptosPlayer1, int ptosPlayer2) {
+
+
+        if (jugador == 1) {
+            System.out.println("¿En donde desea lanzar un misil?\uD83D\uDE80");
+            System.out.println("Posicion en filas: ");
+            misiFila = lector.nextInt();
+            misiFila = vf(misiFila, nfilas + 1, -1);
+            System.out.println("Posicion en columnas: ");
+            misiColumna = lector.nextInt();
+            misiColumna = vf(misiColumna, ncolumnas + 1, -1);
+            System.out.println("⭕ Fijando coordenadas ⭕");
+            System.out.println("‼Coordenadas fijadas‼");
+            System.out.println("Disparando...\uD83D\uDE80");
+            if (tablero2[misiFila - 1][misiColumna - 1] == -2) {
+                System.out.println("Ya has lanzado un misil a esa posición, intenta otra: ");
+
+
+            } else if (tablero2[misiFila - 1][misiColumna - 1] == 1) {
+                System.out.println("✔Impacto directo✔");
+                ptosPlayer1 += 10;
+                tablero2[misiFila - 1][misiColumna - 1] = -2;
+
+            } else if (tablero2[misiFila - 1][misiColumna - 1] == 0) {
+                System.out.println("❌ Impacto fallido ❌");
+
+            }
+        } else if (jugador == 2) {
+            System.out.println("¿En donde desea lanzar un misil?\uD83D\uDE80");
+            System.out.println("Posicion en filas: ");
+            misiFila = lector.nextInt();
+            misiFila = vf(misiFila, nfilas + 1, -1);
+            System.out.println("Posicion en columnas: ");
+            misiColumna = lector.nextInt();
+            misiColumna = vf(misiColumna, ncolumnas + 1, -1);
+            System.out.println("⭕ Fijando coordenadas ⭕");
+            System.out.println("‼Coordenadas fijadas‼");
+            System.out.println("Disparando...\uD83D\uDE80");
+            if (tablero1[misiFila - 1][misiColumna - 1] == -2) {
+                System.out.println("Ya has lanzado un misil a esa posición, intenta otra: ");
+
+
+            } else if (tablero1[misiFila - 1][misiColumna - 1] == 1) {
+                System.out.println("✔Impacto directo✔");
+                ptosPlayer2 += 10;
+                tablero1[misiFila - 1][misiColumna - 1] = -2;
+
+            } else if (tablero1[misiFila - 1][misiColumna - 1] == 0) {
+                System.out.println("❌ Impacto fallido ❌");
+
+            }
+        }
+        return 5;
+
+    }
+
 }

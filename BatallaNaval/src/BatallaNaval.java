@@ -14,7 +14,6 @@ public class BatallaNaval {
 
         Scanner leer = new Scanner(System.in);
         ArrayList<String> jugadores = new ArrayList<>();
-        ArrayList<int[][]> asf = new ArrayList<>();
 
         boolean game = false;
         boolean verificacion = false;
@@ -28,10 +27,10 @@ public class BatallaNaval {
             accion = veri(verificacion, accion, 1, 2);
 
             if (accion == 1) {
-                System.out.println("\uD83E\uDEE1 Ingresa el nombre del jugador " + 1 + ": ");
+                System.out.println("\uD83E\uDEE1 Ingresa el nombre del jugador " + jugadores.get(0) + ": ");
                 String playername = lector.next();
                 jugadores.add(playername);
-                System.out.println("\uD83E\uDEE1 Ingresa el nombre del jugador " + 2 + ": ");
+                System.out.println("\uD83E\uDEE1 Ingresa el nombre del jugador " + jugadores.get(1) + ": ");
                 playername = lector.next();
                 jugadores.add(playername);
 
@@ -52,10 +51,6 @@ public class BatallaNaval {
                 int[][] tabenemigo1 = new int[nfilas][ncolumnas];
                 int[][] tabenemigo2 = new int[nfilas][ncolumnas];
 
-                asf.add(tableroPy1);
-                asf.add(tableroPy2);
-
-
                 System.out.println("Este es tu tablero: ");
                 for (int i = 0; i < nfilas; i++) {
                     for (int j = 0; j < ncolumnas; j++) {
@@ -63,7 +58,6 @@ public class BatallaNaval {
                     }
                     System.out.println("");
                 }
-
 
                 System.out.println("Ingresa el número de barcos que desee tener (minimo 1 y maximo 4)");
                 int btotales = leer.nextInt();
@@ -110,10 +104,10 @@ public class BatallaNaval {
                         System.out.println(" ");
                     }
                     player = 1;
-                    tiro = tiradas(jugadores, tableroPy2, tfila, tcolumna, nfilas, ncolumnas, btotales, ptsP1, tiros, tiro, player);
+                    tiro = tiradas(jugadores, tableroPy2, tabenemigo2, tfila, tcolumna, nfilas, ncolumnas, btotales, ptsP1, tiros, tiro, player);
                     if (tiro) {
                         System.out.println("============= La partida a finalizado =============");
-                        System.out.println("El ganador es el jugador: " + jugadores.get(0) + " con una puntuacion de: " + counterp1);
+                        System.out.println("El ganador es el jugador: " + jugadores.get(0) + " con una puntuacion de: " + count[1]);
                         game = true;
                         tiros = true;
                     }
@@ -129,10 +123,10 @@ public class BatallaNaval {
                             System.out.println(" ");
                         }
                         player = 2;
-                        tiro = tiradas(jugadores, tableroPy1, tfila, tcolumna, nfilas, ncolumnas, btotales, ptsP2, tiros, tiro, player);
+                        tiro = tiradas(jugadores, tableroPy1, tabenemigo1, tfila, tcolumna, nfilas, ncolumnas, btotales, ptsP2, tiros, tiro, player);
                         if (tiro) {
                             System.out.println("============= La partida a finalizado =============");
-                            System.out.println("El ganador es el jugador: " + jugadores.get(1) + " con una puntuacion de: " + counterp2);
+                            System.out.println("El ganador es el jugador: " + jugadores.get(1) + " con una puntuacion de: " + count[0]);
                             game = true;
                             tiros = true;
                         }
@@ -193,13 +187,11 @@ public class BatallaNaval {
                     columna = vf(columna, 0, ncolumnas);
                     tableroPy[fila][columna] = 1;
                 }
-
             }
-
         }
     }
 
-    public static boolean tiradas(ArrayList<String> jugadores, int[][] tableroPy, int tfila, int tcolumna, int nfilas, int ncolumnas, int btotales, int pts, boolean tiros, boolean tiro, int player) {
+    public static boolean tiradas(ArrayList<String> jugadores, int[][] tableroPy, int[][] tabenemigo, int tfila, int tcolumna, int nfilas, int ncolumnas, int btotales, int pts, boolean tiros, boolean tiro, int player) {
         System.out.println("¿En donde desea lanzar un misil?\uD83D\uDE80");
 
         System.out.println("Posicion en fila: ");
@@ -234,12 +226,17 @@ public class BatallaNaval {
                     } else if (player == 2) {
                         count[1] += 1;
                     }
-                    tiros = puntos(count, btotales, tiros);
+                    tiros = points(count, btotales, tiros);
                     tableroPy[tfila][tcolumna] = -1;
+                    tabenemigo[tfila][tcolumna] = 8;
+                    y = true;
                 } else if (tableroPy[tfila][tcolumna] == 0) {
                     System.out.println("Disparando...\uD83D\uDE80");
                     System.out.println("❌ Impacto fallido ❌");
                     tableroPy[tfila][tcolumna] = -1;
+                    tabenemigo[tfila][tcolumna] = 8;
+                    y = true;
+
                 }
                 if (tableroPy[tfila][tcolumna] == 0) {
                     y = true;
@@ -254,17 +251,19 @@ public class BatallaNaval {
             } else if (player == 2) {
                 count[1] += 1;
             }
-            tiros = puntos(count, btotales, tiros);
+            tiros = points(count, btotales, tiros);
             tableroPy[tfila][tcolumna] = -1;
+            tabenemigo[tfila][tcolumna] = 8;
         } else if (tableroPy[tfila][tcolumna] == 0) {
             System.out.println("Disparando...\uD83D\uDE80");
             System.out.println("❌ Impacto fallido ❌");
             tableroPy[tfila][tcolumna] = -1;
+            tabenemigo[tfila][tcolumna] = 8;
         }
         return tiros;
     }
 
-    public static boolean puntos(int count[], int btotales, boolean tiros) {
+    public static boolean points(int count[], int btotales, boolean tiros) {
         if (count[0] >= btotales) {
             tiros = true;
         } else if (count[1] >= btotales) {
